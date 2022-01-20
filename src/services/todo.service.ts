@@ -1,13 +1,26 @@
 import { ITodo } from '../interfaces/todo.interface';
 import Todo from '../models/todo.model'
 
+type QueryOption = {
+  sort: string | 'desc' | 'asc'
+  limit: number
+}
+
+// interface QueryOption 
 export class TodoService {
   public getWelcomeMessage() {
     return 'Welcome to todo RESTful service';
   }
 
-  public findAll(): Promise<ITodo[]> {
-    return Todo.find({}).exec();
+  public findAll(options: QueryOption): Promise<ITodo[]> {
+    const query = Todo.find({});
+    if (options.sort === 'asc' || options.sort === 'desc') {
+      query.sort({weight: options.sort})
+    }
+    if (options.limit) {
+      query.limit(options.limit)
+    }
+    return query.exec();
   }
 
   public add(todo: ITodo): Promise<ITodo> {

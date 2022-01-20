@@ -1,5 +1,5 @@
 ### List all items
-GET http://localhost:9000/todo/all
+GET http://localhost:9000/todo/all?limit=2
 content-type: application/json
 
 ### Add an item

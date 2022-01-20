@@ -25,7 +25,14 @@ export class TodoController {
 
   private findAll = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const serviceRes = await this.todoService.findAll();
+      let options: any = {};
+      if (req.query && req.query.sort) {
+        options['sort'] = req.query.sort;
+      }
+      if (req.query && req.query.limit) {
+        options['limit'] = req.query.limit;
+      }
+      const serviceRes = await this.todoService.findAll(options);
       res.send(serviceRes);
     } catch (e) {
       if (e instanceof Error) {

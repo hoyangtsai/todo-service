@@ -3,8 +3,9 @@ import app from '../app';
 import { connectToDatabase, closeDatabase } from '../data';
 import { TodoService } from '../services/todo.service';
 import { ITodo } from '../interfaces/todo.interface';
+import Todo from '../models/todo.model';
 
-let aTodo: any = {
+let aTodo = {
   name: 'test 1', done: false, weight: 2
 };
 
@@ -26,14 +27,14 @@ describe("Test the todo route", () => {
   });
 });
 
-
 describe("Integration with mongoDB", () => {
   const todoService = new TodoService();
 
   test("Get todos", (done) => {
-    todoService.findAll()
+    todoService.findAll({sort: '', limit: 0})
       .then((results) => {
-        expect(results).not.toBe(undefined);
+        console.log('todos results :>> ', results);
+        expect(results).not.toBeUndefined();
         done()
       })
       .catch((err) => done(err));
@@ -41,15 +42,16 @@ describe("Integration with mongoDB", () => {
 
 
   test("Modify a todo", async () => {
-    const allRes = await todoService.add(aTodo);
-    const { id, ...todo } = allRes;
-    expect(todo).toEqual(aTodo);
+    const newTodo = new Todo(aTodo);
+    const addRes = await todoService.add(newTodo);
+    // console.log('addRes :>> ', addRes);
+    expect(addRes).toMatchObject(aTodo);
 
-    if (id) {
-      // const editTodo = { ...aTodo, done: true };
-      aTodo.done = true;
-      const editRes = await todoService.update(id, aTodo);
-      expect(editRes).toEqual(allRes);
+    if (addRes._id) {
+      let editTodo = { addRes, ...{ done: true} };
+      const editRes = await todoService.update(addRes._id, editTodo);
+      console.log('editRes :>> ', editRes);
+      expect(editRes).toMatchObject(editTodo);
     }
   });
 })
