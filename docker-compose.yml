@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  api:
+    image: hoyangtsai/todoservice
+    container_name: todoservice
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - NODE_ENV=development
+    ports:
+      - 9000:9000
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodata:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=todo-db
+    ports:
+      - 27017:27017
+
+volumes:
+  mongodata:

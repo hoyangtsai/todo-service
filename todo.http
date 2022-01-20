@@ -1,0 +1,28 @@
+### List all items
+GET http://localhost:9000/todo/all
+content-type: application/json
+
+### Add an item
+POST http://localhost:9000/todo/add
+content-type: application/json
+
+{
+    "name": "build the image",
+    "done": false,
+    "weight": 100
+}
+
+### Update an item
+PUT http://localhost:9000/todo/61e8f6320e9dd2222650dbda
+content-type: application/json
+
+{
+    "name": "watch youtube",
+    "done": true,
+    "weight": 5
+}
+
+### Delete an item
+DELETE http://localhost:9000/todo/61de59ebc3387ed4f8fca74e
+content-type: application/json
+

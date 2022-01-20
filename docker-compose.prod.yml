@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  api:
+    build:
+      dockerfile: ./Dockerfile.prod
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
