@@ -33,7 +33,7 @@ class App {
 
   private setControllers() {
     this.app.get("/", (req, res) => {
-      res.status(200).send("Hello World!");
+      res.status(200).send("Hello World!!!");
     });
 
     // Creating a new instance
