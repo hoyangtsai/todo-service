@@ -1,12 +1,12 @@
 {
     "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}",
-        ".env",
-        "test{,/**}"
+      "node_modules{,/**}",
+      ".vscode{,/**}",
+      ".env",
+      "test{,/**}"
     ],
     "appService.deploySubpath": ".",
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+      "source.fixAll.eslint": true
     },
 }

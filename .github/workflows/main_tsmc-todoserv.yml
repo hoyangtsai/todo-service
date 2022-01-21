@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '14-lts'
 
       - name: npm install, build, and test
         run: |
@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -49,7 +49,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'tsmc-todoserv'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C7605B96C7CD4A76BB2090AB29691710 }}
+          app-name: 'todo-services'
+          slot-name: 'production'
+          publish-profile: ${{ secrets.AzureAppService_PublishProfile_812cdc0087284afe815e0b6a62e1fafc }}
           package: .
