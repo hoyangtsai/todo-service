@@ -53,4 +53,14 @@ export class TodoService {
 
     return updatedTodo;
   }
+
+  public async insertMany(todos: ITodo[]) {
+    try {
+      const insertResult = await Todo.insertMany(todos);
+      console.log('insertResult :>> ', insertResult);
+      return insertResult;
+    } catch (err) {
+      throw new Error(`${err}`);
+    }
+  }
 }

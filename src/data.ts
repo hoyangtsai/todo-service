@@ -5,7 +5,7 @@ import mongoose, { Mongoose } from "mongoose";
 let mongoClient: Mongoose;
 
 const DATABASE_URL = process.env.DATABASE_URL
-  ? process.env.DATABASE_URL
+  ? (process.env.NODE_ENV === 'test' ? 'mongodb://localhost:27017' : process.env.DATABASE_URL)
   : 'mongodb://localhost:27017';
 const DATABASE_NAME = process.env.DATABASE_NAME || 'todo-db';
 // const DATABASE_COLLECTION_NAME =

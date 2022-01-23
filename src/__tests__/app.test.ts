@@ -1,12 +1,9 @@
 import request, { Response } from "supertest";
 import app from '../app';
 import { connectToDatabase, closeDatabase } from '../data';
-import { TodoService } from '../services/todo.service';
-import { ITodo } from '../interfaces/todo.interface';
-import Todo from '../models/todo.model';
 
 let aTodo = {
-  name: 'test 1', done: false, weight: 2
+  name: 'test nnn', done: false, weight: 1
 };
 
 beforeAll(async () => await connectToDatabase());
@@ -14,45 +11,46 @@ afterAll(async () => await closeDatabase());
 // afterEach(async () => await clearDatabase())
 
 describe("Test the todo route", () => {
-  test("request common GET method", (done) => {
+  test("common GET method", (done) => {
     request(app).get("/todo")
-      .then((response: Response) => {
-        // console.log('response :>> ', response);
-        expect(response.statusCode).toBe(200);
-        done();
-      })
-      .catch((err: Error) => {
-        done(err);
-      })
-  });
-});
-
-describe("Integration with mongoDB", () => {
-  const todoService = new TodoService();
-
-  test("Get todos", (done) => {
-    todoService.findAll({sort: '', limit: 0})
-      .then((results) => {
-        console.log('todos results :>> ', results);
-        expect(results).not.toBeUndefined();
+      .then((res: Response) => {
+        expect(res.statusCode).toBe(200)
         done()
       })
-      .catch((err) => done(err));
+      .catch((err: Error) => {
+        done(err)
+      })
   });
 
+  test("request all todos", (done) => {
+    request(app).get("/todo/all")
+      .then((res: Response) => {
+        expect(res.statusCode).toBe(200)
+        expect(Array.isArray(res.body)).toBe(true)
+        done()
+      })
+      .catch((err: Error) => {
+        done(err)
+      })
+  });
 
-  test("Modify a todo", async () => {
-    const newTodo = new Todo(aTodo);
-    const addRes = await todoService.add(newTodo);
-    // console.log('addRes :>> ', addRes);
-    expect(addRes).toMatchObject(aTodo);
+  test("modify a todo", async () => {    
+    const insertResult: Response = await request(app).post("/todo/add").send(aTodo);
 
-    if (addRes._id) {
-      let editTodo = { addRes, ...{ done: true} };
-      const editRes = await todoService.update(addRes._id, editTodo);
-      console.log('editRes :>> ', editRes);
-      expect(editRes).toMatchObject(editTodo);
+    expect(insertResult.statusCode).toBe(200)
+    expect(insertResult.body).toMatchObject(aTodo)
+
+    const todoId = insertResult.body.id;
+
+    if (todoId) {
+      const alterResult = await request(app).put(`/todo/${todoId}`).send({ done: true, weight: 5 });
+      expect(alterResult.statusCode).toBe(200)
+      expect(alterResult.body.id).toEqual(todoId)
+      expect(alterResult.body).toEqual(expect.objectContaining(aTodo))
+
+      const removeResult = await request(app).delete(`/todo/${todoId}`);
+      expect(removeResult).not.toBeUndefined()
     }
-  });
-})
+  })
+});
   
