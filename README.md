@@ -1,3 +1,10 @@
 # Todo Service
 
-Using express and mongodb to build the web service with docker
+A backend todo service working with [todo-client](https://github.com/hoyangtsai/todo-client)
+
+## Stack
+
+- express with typescript
+- mongodb
+- docker and docker-compose
+- azure deployment
