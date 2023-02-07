@@ -4,18 +4,16 @@ import mongoose, { Mongoose } from "mongoose";
 
 let mongoClient: Mongoose;
 
+const DATABASE_NAME = process.env.DATABASE_NAME || 'todo-db';
 const DATABASE_URL = process.env.DATABASE_URL
   ? (process.env.NODE_ENV === 'test' ? 'mongodb://localhost:27017' : process.env.DATABASE_URL)
   : 'mongodb://localhost:27017';
-const DATABASE_NAME = process.env.DATABASE_NAME || 'todo-db';
-// const DATABASE_COLLECTION_NAME =
-//   process.env.DATABASE_COLLECTION_NAME || 'todos';
 
 const connect = async (url: string, options: mongoose.ConnectOptions) => {
   // check params
   if (!url || !options) throw Error('connect::missing required params');
 
-  return mongoose.connect(url);
+  return mongoose.connect(url, options);
 };
 
 const connectToDatabase = async (): Promise<Mongoose | undefined> => {
@@ -25,6 +23,9 @@ const connectToDatabase = async (): Promise<Mongoose | undefined> => {
       console.log(`DB required params DATABASE_URL = ${DATABASE_URL}`);
       console.log(`DB required params DATABASE_NAME = ${DATABASE_NAME}`);
     }
+
+    console.log(`DATABASE_URL = ${DATABASE_URL}`);
+    console.log(`DATABASE_NAME = ${DATABASE_NAME}`);
 
     mongoClient = await connect(DATABASE_URL, { dbName: DATABASE_NAME });
 

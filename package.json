@@ -12,9 +12,9 @@
     "build": "rimraf dist && tsc",
     "docker:build": "docker build . -t hoyangtsai/todoservice -f Dockerfile.prod",
     "docker:run": "docker-compose up",
-    "docker:run-prod": "docker-compose up -f docker-compose.yml -f docker-compose.prod.yml",
-    "docker:compose-build": "docker-compose build -f docker-compose.yml -f docker-compose.prod.yml",
-    "docker:db": "docker run --name mongodb --volume todo-service_mongodata:/data/db -d -p 27017:27017 mongo"
+    "docker:run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
+    "docker:compose-build": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml build",
+    "docker:db": "docker run -d --name mongodb --volume todo-service_mongodata:/data/db -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin#96 -e MONGO_INITDB_ROOT_USERNAME=ys@nEighTo mongo"
   },
   "keywords": [
     "nodejs",

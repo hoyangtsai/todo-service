@@ -3,8 +3,6 @@ version: '3.4'
 services:
   test:
     container_name: todoservice-test
-    build:
-      context: .
     environment:
       - NODE_ENV=test
     volumes:
