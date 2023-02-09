@@ -17,7 +17,7 @@ services:
       - mongo
 
   mongo:
-    image: mongo:latest
+    image: mongo:4
     container_name: mongodb
     restart: always
     volumes:
