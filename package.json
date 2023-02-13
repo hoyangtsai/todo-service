@@ -14,7 +14,7 @@
     "docker:run": "docker-compose up",
     "docker:run-prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up",
     "docker:compose-build": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml build",
-    "docker:db": "docker run -d --name mongodb --volume todo-service_mongodata:/data/db -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin#96 -e MONGO_INITDB_ROOT_USERNAME=ys@nEighTo mongo:4"
+    "docker:db": "docker run -d --name mongodb --volume todo-service_mongodata:/data/db -p 27017:27017 mongo:4"
   },
   "keywords": [
     "nodejs",
